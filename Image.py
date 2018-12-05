@@ -35,5 +35,17 @@ class Line:
     def __init__(self, vec):
         self.x0 = int(vec[0])
         self.y0 = int(vec[1])
+        self.P= np.array([self.x0, self.y0])
         self.x1 = int(vec[2])
         self.y1 = int(vec[3])
+        self.Q= np.array([self.x1, self.y1])
+
+    def find_u_v(self, X):
+        X_P= np.subtract(X, self.P)
+        Q_P= np.subtract(self.Q, self.P)
+        mag=np.linalgnorm(Q_P)
+        Perp= np.array([Q_P[1], -1*Q_P[0]])
+        u= np.dot(X_P, Q_P)/ math.pow(mag,2)
+        v=np.dot(X_P, Perp)/mag
+        return(u,v)
+

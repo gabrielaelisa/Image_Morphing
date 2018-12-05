@@ -1,5 +1,8 @@
 from headers import *
 from Image import *
+p=1
+b= 2
+a= 0.01
 class Morph:
 
     def __init__(self, img1, img2, lines, N):
@@ -45,5 +48,9 @@ class Morph:
         ax[1].imshow(self.dest_image.image, cmap='gray')
         plt.show()
 
-    def warp(self):
-        pass
+    def warp(self, image):
+        alist = [[np.array([i,j]) for j in range(256)] for i in range(256)]
+        for x in alist:
+                DSUM= (0,0)
+                for line in image.lines:
+                    (u,v) = line.find_u_v(x)
