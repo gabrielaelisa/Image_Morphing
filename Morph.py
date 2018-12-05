@@ -44,3 +44,6 @@ class Morph:
         ax[0].imshow(self.src_image.image, cmap='gray')
         ax[1].imshow(self.dest_image.image, cmap='gray')
         plt.show()
+
+    def warp(self):
+        pass
