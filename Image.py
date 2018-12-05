@@ -49,3 +49,10 @@ class Line:
         v=np.dot(X_P, Perp)/mag
         return(u,v)
 
+    def calculate_x_i(u,v):
+        X_P= np.subtract(X, self.P)
+        Q_P= np.subtract(self.Q, self.P)
+        mag=np.linalgnorm(Q_P)
+        Perp= np.array([Q_P[1], -1*Q_P[0]])
+        return self.P+ np.dot(u, Q_P) + np.dot(v, Perp)/mag
+    

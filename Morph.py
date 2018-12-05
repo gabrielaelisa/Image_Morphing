@@ -16,9 +16,10 @@ class Morph:
         self.lines = lines
         self.N = N
         (s_l,d_l)= self.process_input_file()
-        print(s_l)
+
         self.src_image= Image(img1,s_l)
         self.dest_image= Image(img2, d_l)
+
         self.resize()
         self.src_image.draw_lines()
         self.dest_image.draw_lines()
@@ -48,9 +49,16 @@ class Morph:
         ax[1].imshow(self.dest_image.image, cmap='gray')
         plt.show()
 
-    def warp(self, image):
+    def warp(self, src_image, dest_image):
         alist = [[np.array([i,j]) for j in range(256)] for i in range(256)]
         for x in alist:
-                DSUM= (0,0)
-                for line in image.lines:
-                    (u,v) = line.find_u_v(x)
+            DSUM= (0,0)
+            it=0
+            for line in src_image.lines:
+                (u,v) = line.find_u_v(x)
+                line2= dest_image.lines[it]
+                x_i=line2.calculate_x_i(u,v)
+                D_i=x_i-x
+                it+=1
+                
+
