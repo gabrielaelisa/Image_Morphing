@@ -33,12 +33,11 @@ class Image:
 class Line:
 
     def __init__(self, vec):
-        self.x0 = int(vec[0])
-        self.y0 = int(vec[1])
-        self.P= np.array([self.x0, self.y0])
-        self.x1 = int(vec[2])
-        self.y1 = int(vec[3])
-        self.Q= np.array([self.x1, self.y1])
+        self.vec= vec
+        # x0, y0
+        self.P= np.array([vec[0], vec[1]])
+        #x1, y1
+        self.Q= np.array([vec[2], vec[3]])
         self.Q_P= np.subtract(self.Q, self.P)
     
 
