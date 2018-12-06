@@ -21,9 +21,9 @@ class Morph:
         self.dest_image= Image(img2, d_l)
 
         self.resize()
-        self.src_image.draw_lines()
-        self.dest_image.draw_lines()
-        #self.warp(self.src_image)
+        #self.src_image.draw_lines()
+        #self.dest_image.draw_lines()
+        self.warp(self.src_image)
 
     def process_input_file(self):
         src_lines= []
@@ -66,7 +66,7 @@ class Morph:
                 x_i=line2.calculate_x_i(u,v)
                 D_i=x_i-x # displacement
                 length= np.linalg.norm(line.Q_P)# line length
-                distance= line.shortest_distance(x)
+                distance= line.shortest_distance(x,u,v)
                 weight= math.pow(math.pow(length,p)/(distance + a), b)
                 DSUM+=D_i*weight
                 weightsum+=weight
@@ -77,9 +77,9 @@ class Morph:
                 x_i[0]=255
             if x_i[1]>255:
                 x_i[1]=255
-            int_image[x[0],x[1], 0]=src_image.image[x_i[0],x_i[1], 0]
-            int_image[x[0],x[1], 1]=src_image.image[:, :, 1][x_i[0],x_i[1]]
-            int_image[x[0],x[1], 2]=src_image.image[:, :, 2][x_i[0],x_i[1]]
+            int_image[x[1],x[0], 0]=src_image.image[x_i[1],x_i[0], 0]
+            int_image[x[1],x[0], 1]=src_image.image[:, :, 1][x_i[1],x_i[0]]
+            int_image[x[1],x[0], 2]=src_image.image[:, :, 2][x_i[1],x_i[0]]
 
         plt.imshow(int_image,vmin=0, vmax=1)
         plt.show()                

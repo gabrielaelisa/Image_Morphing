@@ -33,29 +33,31 @@ class Image:
 class Line:
 
     def __init__(self, vec):
-        self.x0 = int(vec[0])
-        self.y0 = int(vec[1])
+        self.x0 = int(vec[1])
+        self.y0 = int(vec[0])
         self.P= np.array([self.x0, self.y0])
-        self.x1 = int(vec[2])
-        self.y1 = int(vec[3])
+        self.x1 = int(vec[3])
+        self.y1 = int(vec[2])
         self.Q= np.array([self.x1, self.y1])
         self.Q_P= np.subtract(self.Q, self.P)
     
 
-    def shortest_distance(self,x):
+    def shortest_distance(self,x, u, v):
         '''
         :param x is a numpy array (tuple)
         :returns shortest distance for point x to
         the line defined by P Q from object line
         '''
-        term1=(self.y1 -self.y0)*x[0] 
-        term2= (self.x1-self.x0)*x[1] 
-        term3= self.x1*self.y0
-        term4= self.y1*self.x0
-        numerator= abs( term1- term2 + term3 - term4)
-        mag= np.linalg.norm(self.Q_P)
-        return numerator/mag
+        if(u >0 and u <1):
+            return abs(v)
 
+        if(u<0):
+            p= np.subtract(self.P, x)
+            return np.linalg.norm(p)
+
+        else:
+            p= np.subtract(self.Q, x)
+            return np.linalg.norm(p)
 
 
     def find_u_v(self, X):
