@@ -23,6 +23,7 @@ class Morph:
         self.resize()
         self.src_image.draw_lines()
         self.dest_image.draw_lines()
+        #self.warp(self.src_image)
 
     def process_input_file(self):
         src_lines= []
@@ -49,16 +50,37 @@ class Morph:
         ax[1].imshow(self.dest_image.image, cmap='gray')
         plt.show()
 
-    def warp(self, src_image, dest_image):
-        alist = [[np.array([i,j]) for j in range(256)] for i in range(256)]
-        for x in alist:
-            DSUM= (0,0)
+    def warp(self, src_image):
+        int_image= np.zeros_like(src_image.image)
+        alist=[]
+        for i in range(225):
+            for j in range(225):
+                alist.append(np.array([i,j]))
+        for x in alist: # for each pixel in intermediary image
+            DSUM= np.array([0.0,0.0])
+            weightsum= 0
             it=0
-            for line in src_image.lines:
+            for line in self.dest_image.lines:
                 (u,v) = line.find_u_v(x)
-                line2= dest_image.lines[it]
+                line2= src_image.lines[it]
                 x_i=line2.calculate_x_i(u,v)
-                D_i=x_i-x
+                D_i=x_i-x # displacement
+                length= np.linalg.norm(line.Q_P)# line length
+                distance= line.shortest_distance(x)
+                weight= math.pow(math.pow(length,p)/(distance + a), b)
+                DSUM+=D_i*weight
+                weightsum+=weight
                 it+=1
-                
+            x_i=x +DSUM/weightsum
+            x_i= x_i.astype(int)
+            if x_i[0]>255:
+                x_i[0]=255
+            if x_i[1]>255:
+                x_i[1]=255
+            int_image[x[0],x[1], 0]=src_image.image[x_i[0],x_i[1], 0]
+            int_image[x[0],x[1], 1]=src_image.image[:, :, 1][x_i[0],x_i[1]]
+            int_image[x[0],x[1], 2]=src_image.image[:, :, 2][x_i[0],x_i[1]]
+
+        plt.imshow(int_image,vmin=0, vmax=1)
+        plt.show()                
 
