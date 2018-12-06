@@ -13,6 +13,7 @@ class Morph:
         :param lines: lines of correspondance, .txt file
         :param N: number of inter-¡mediary images
         '''
+        self.dim= 256
         self.lines = lines
         self.N = N
         (s_l,d_l)= self.process_input_file()
@@ -40,8 +41,8 @@ class Morph:
 
         :return: reesclaed image into 256x256 pixels
         '''
-        self.src_image.resize()
-        self.dest_image.resize()
+        self.src_image.resize(self.dim)
+        self.dest_image.resize(self.dim)
 
     def display(self):
         fig, axes = plt.subplots(nrows=2, ncols=2)
@@ -53,8 +54,8 @@ class Morph:
     def warp(self, src_image):
         int_image= np.zeros_like(src_image.image)
         alist=[]
-        for i in range(225):
-            for j in range(225):
+        for i in range(self.dim):
+            for j in range(self.dim):
                 alist.append(np.array([i,j]))
         for x in alist: # for each pixel in intermediary image
             DSUM= np.array([0.0,0.0])
@@ -72,15 +73,49 @@ class Morph:
                 weightsum+=weight
                 it+=1
             x_i=x +DSUM/weightsum
-            x_i= x_i.astype(int)
+            #x_i= x_i.astype(int)
             if x_i[0]>255:
                 x_i[0]=255
             if x_i[1]>255:
                 x_i[1]=255
-            int_image[x[1],x[0], 0]=src_image.image[x_i[1],x_i[0], 0]
-            int_image[x[1],x[0], 1]=src_image.image[:, :, 1][x_i[1],x_i[0]]
-            int_image[x[1],x[0], 2]=src_image.image[:, :, 2][x_i[1],x_i[0]]
+            self.interpolation(x, x_i, int_image, src_image)
+
+            #int_image[x[1],x[0]]=src_image.image[x_i[1],x_i[0]]
 
         plt.imshow(int_image,vmin=0, vmax=1)
-        plt.show()                
+        plt.show()
+
+    def interpolation(self,x,xi, int_image, src_image):
+        '''
+        :param int_image intermediary image
+        :param src_image source image
+        if x is a float, returns the interpolation of pixels
+        '''
+        rx= xi[0]%1 #col
+        ry= xi[1]%1 #row
+        xi= xi.astype(int)
+        if(rx==0 and ry==0):
+            int_image[x[1],x[0]]=src_image.image[xi[1],xi[0]]
+
+        elif(rx==0):
+            term1=(1-ry)*src_image.image[xi[1],xi[0]] 
+            term2=ry*src_image.image[xi[1]+1,xi[0]]
+            int_image[x[1],x[0]]=term1 + term2
+
+        elif(ry==0):
+            term1=(1-rx)*src_image.image[xi[1], xi[0]]
+            term2=rx*src_image.image[xi[1], xi[0]+1]
+            int_image[x[1],x[0]]= term1 +term2
+
+        else:
+            
+            term1= rx*ry*src_image.image[xi[1]+1, xi[0]+1]
+            term2= rx*(1-ry)*src_image.image[xi[1], xi[0]+1]
+            term3= ry*(1-rx)*src_image.image[xi[1]+1, xi[0]]
+            term4= (1-ry)*(1-rx)*src_image.image[xi[1], xi[0]]
+            
+            int_image[x[1],x[0]]=term1+ term2 +term3 +term4
+
+
+        
 

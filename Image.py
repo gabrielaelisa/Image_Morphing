@@ -27,17 +27,17 @@ class Image:
             green[rr,cc]=0
             blue[rr,cc]=255
 
-    def resize(self):
-        self.image= resize(self.image, (225, 225), anti_aliasing=True)
+    def resize(self, dim):
+        self.image= resize(self.image, (dim, dim), anti_aliasing=True)
 
 class Line:
 
     def __init__(self, vec):
-        self.x0 = int(vec[1])
-        self.y0 = int(vec[0])
+        self.x0 = int(vec[0])
+        self.y0 = int(vec[1])
         self.P= np.array([self.x0, self.y0])
-        self.x1 = int(vec[3])
-        self.y1 = int(vec[2])
+        self.x1 = int(vec[2])
+        self.y1 = int(vec[3])
         self.Q= np.array([self.x1, self.y1])
         self.Q_P= np.subtract(self.Q, self.P)
     
