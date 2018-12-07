@@ -16,7 +16,7 @@ class Morph:
         self.dim= 256
         self.lines = lines
         self.N = N
-        self.t= 0.5 # morph step t
+        self.t= 1/(N+1)# morph step t
         (s_l,d_l)= self.process_input_file()
 
         self.src_image= Image(img1,s_l)
@@ -57,11 +57,16 @@ class Morph:
         :return: warped and blends image from
         source to dest
         '''
-        im1= self.warp(self.src_image, self.dest_image, self.t)
-        im2= self.warp(self.dest_image, self.src_image, self.t)
-        im_t=self.blend(im1, im2, self.t)
-        plt.imsave("results/image" + str(self.t) + ".jpg", im_t)
+        step=self.t
+        for i in range(self.N):
+            im1= self.warp(self.src_image, self.dest_image, self.t)
+            im2= self.warp(self.dest_image, self.src_image, self.t)
+            im_t=self.blend(im1, im2, self.t)
+            plt.imsave("results/image_step_" + str(i) + ".jpg", im_t)
+            self.t+=step
 
+
+        '''
         plt.axis('off')
         fig, xs = plt.subplots(1, 3)
         xs[0].imshow(im1, cmap="gray")
@@ -74,9 +79,7 @@ class Morph:
         xs[2].set_title("Blending")
         xs[2].axis('off')
         plt.show()
-
-
-
+        '''
 
     def warp(self, src_image, dest_image, t):
         t_image= np.zeros_like(src_image.image)
@@ -137,7 +140,6 @@ class Morph:
             term2= rx*(1-ry)*src_image.image[xi[1], xi[0]+1]
             term3= ry*(1-rx)*src_image.image[xi[1]+1, xi[0]]
             term4= (1-ry)*(1-rx)*src_image.image[xi[1], xi[0]]
-            
             t_image[x[1],x[0]]=term1+ term2 +term3 +term4
 
     def blend(self, src_im, dest_im , t):
