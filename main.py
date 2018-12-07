@@ -10,6 +10,7 @@ if __name__ == '__main__':
     img2 = io.imread(path_img2)
     m = Morph(img1, img2, file, N)
     m.display()
+    '''
     img1= resize(img1, (256, 256), anti_aliasing=True)
     img2= resize(img2, (256, 256), anti_aliasing=True)
     fig, xs = plt.subplots(1, 2)
@@ -18,3 +19,4 @@ if __name__ == '__main__':
     plt.show()
     #m = Morph(img1, img2, file, N)
     #m.display()
+    '''

@@ -23,9 +23,9 @@ class Morph:
         self.dest_image= Image(img2, d_l)
 
         self.resize()
-        self.src_image.draw_lines()
-        self.dest_image.draw_lines()
-        #self.morph()
+        #self.src_image.draw_lines()
+        #self.dest_image.draw_lines()
+        self.morph()
 
     def process_input_file(self):
         src_lines= []
