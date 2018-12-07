@@ -25,7 +25,7 @@ class Morph:
         self.resize()
         #self.src_image.draw_lines()
         #self.dest_image.draw_lines()
-        self.warp(self.src_image, self.dest_image, self.t)
+        self.morph()
 
     def process_input_file(self):
         src_lines= []
@@ -45,11 +45,38 @@ class Morph:
         self.dest_image.resize(self.dim)
 
     def display(self):
-        fig, axes = plt.subplots(nrows=2, ncols=2)
+        fig, axes = plt.subplots(nrows=1, ncols=2)
         ax = axes.ravel()
         ax[0].imshow(self.src_image.image, cmap='gray')
         ax[1].imshow(self.dest_image.image, cmap='gray')
         plt.show()
+
+    def morph(self):
+        '''
+
+        :return: warped and blends image from
+        source to dest
+        '''
+        im1= self.warp(self.src_image, self.dest_image, self.t)
+        im2= self.warp(self.dest_image, self.src_image, self.t)
+        im_t=self.blend(im1, im2, self.t)
+        plt.imsave("results/image" + str(self.t) + ".jpg", im_t)
+
+        plt.axis('off')
+        fig, xs = plt.subplots(1, 3)
+        xs[0].imshow(im1, cmap="gray")
+        xs[0].set_title("Warping source")
+        xs[0].axis('off')
+        xs[1].imshow(im2, cmap="gray")
+        xs[1].set_title("Warping dest")
+        xs[1].axis('off')
+        xs[2].imshow(im_t, cmap="gray")
+        xs[2].set_title("Blending")
+        xs[2].axis('off')
+        plt.show()
+
+
+
 
     def warp(self, src_image, dest_image, t):
         t_image= np.zeros_like(src_image.image)
@@ -79,9 +106,8 @@ class Morph:
             if x_i[1]>255:
                 x_i[1]=255
             self.interpolation(x, x_i, t_image, src_image)
+        return t_image
 
-        plt.imshow(t_image,vmin=0, vmax=1)
-        plt.show()
 
     def interpolation(self,x,xi, t_image, src_image):
         '''
@@ -115,7 +141,10 @@ class Morph:
             t_image[x[1],x[0]]=term1+ term2 +term3 +term4
 
     def blend(self, src_im, dest_im , t):
-        pass
+        return src_im*(1-t) +dest_im*t
+
+
+        
 
 
         

@@ -22,7 +22,7 @@ class Image:
             red = self.image[:, :, 0]
             green = self.image[:, :, 1]
             blue = self.image[:, :, 2]
-            rr,cc= s_line(line.y0,line.x0,line.y1,line.x1)
+            rr,cc= s_line(line.P[1],line.P[0],line.Q[1],line.Q[0])
             red[rr,cc]=0
             green[rr,cc]=0
             blue[rr,cc]=255
@@ -71,4 +71,3 @@ class Line:
         mag=np.linalg.norm(self.Q_P)
         Perp= np.array([self.Q_P[1], -1*self.Q_P[0]])
         return self.P+ np.dot(u, self.Q_P) + np.dot(v, Perp)/mag
-    

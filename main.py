@@ -9,4 +9,4 @@ if __name__ == '__main__':
     img1 = io.imread(path_img1)
     img2 = io.imread(path_img2)
     m = Morph(img1, img2, file, N)
-    m.display()
+    #m.display()
