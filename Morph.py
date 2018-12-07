@@ -23,9 +23,9 @@ class Morph:
         self.dest_image= Image(img2, d_l)
 
         self.resize()
-        #self.src_image.draw_lines()
-        #self.dest_image.draw_lines()
-        self.morph()
+        self.src_image.draw_lines()
+        self.dest_image.draw_lines()
+        #self.morph()
 
     def process_input_file(self):
         src_lines= []
@@ -104,10 +104,10 @@ class Morph:
                 weightsum+=weight
                 it+=1
             x_i=x +DSUM/weightsum
-            if x_i[0]>255:
-                x_i[0]=255
-            if x_i[1]>255:
-                x_i[1]=255
+            if x_i[0]>self.dim-1:
+                x_i[0]=self.dim-1
+            if x_i[1]>self.dim-1:
+                x_i[1]=self.dim-1
             self.interpolation(x, x_i, t_image, src_image)
         return t_image
 
