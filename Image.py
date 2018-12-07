@@ -2,7 +2,8 @@ from headers import *
 class Image:
     def __init__(self, img, lines):
         self.image= img
-        self.lines= self.process_lines(lines)
+        self.lines= self.lines
+    
 
     def process_lines(self, ls):
         lines=[]
@@ -22,7 +23,7 @@ class Image:
             red = self.image[:, :, 0]
             green = self.image[:, :, 1]
             blue = self.image[:, :, 2]
-            rr,cc= s_line(line.P[1],line.P[0],line.Q[1],line.Q[0])
+            rr,cc= s_line(line.P[1],line.P[0],line.Q[1],line.Q[ 0])
             red[rr,cc]=0
             green[rr,cc]=0
             blue[rr,cc]=255

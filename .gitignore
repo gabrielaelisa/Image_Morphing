@@ -1,0 +1,6 @@
+.pyc__pycache__/
+*.py[cod]
+*.zip
+*.npy
+*.idea
+

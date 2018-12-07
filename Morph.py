@@ -87,21 +87,34 @@ class Morph:
         for i in range(self.dim):
             for j in range(self.dim):
                 alist.append(np.array([i,j]))
+        print("finish for")
+        row, col = np.indices((self.dim, self.dim))
         for x in alist: # for each pixel in intermediary image
+            Xs = np.tile(x,len(src_image.lines))
             DSUM= np.array([0.0,0.0])
             weightsum= 0
-            it=0
-            for line in dest_image.lines:
-                line2= src_image.lines[it]
-                line_t= Line(t*line.vec+(1-t)*line2.vec)
-                (u,v) = line_t.find_u_v(x)
-                x_i=line2.calculate_x_i(u,v)
-                D_i=x_i-x # displacement
-                length= np.linalg.norm(line_t.Q_P)# line length
-                distance= line_t.shortest_distance(x,u,v)
-                weight= math.pow(math.pow(length,p)/(distance + a), b)
-                DSUM+=D_i*weight
-                weightsum+=weight
+            line_t= Line(t*dest_image.lines+(1-t)*src_image.lines)
+            P=line_t[:,0:2]
+            Q=line_t[:,2:4]
+            X_P= Xs-P
+            Q_P= Q-P
+            mag=np.linalg.norm(Q_P, axis=1)
+            u=np.einsum('ij,ij->i', X_P, Q_P)/(mag*mag)
+            Perp= np.flip(Q_P,1)* np.array([1,-1])
+            v=np.einsum('ij,ij->i',X_P, Perp)/mag
+            #--------------------------------------
+            P1=src_image.lines[:,0:2]
+            Q1=src_image.lines[:,2:4]
+            Q_P1= Q-P
+            mag1=np.linalg.norm(Q_P, axis=1)
+            Perp1= np.flip(Q_P,1)* np.array([1,-1])
+            x_i= P1+ np.einsum('ij,ij->i', u, Q_P1) + np.einsum('ij,ij->i', v, Perp1)/mag1
+            D_i=x_i-Xs # displacement
+            length= np.linalg.norm(Q_P, axis=1)# line length
+            distance= line_t.shortest_distance(x,u,v)
+            weight= math.pow(math.pow(length,p)/(distance + a), b)
+            DSUM+=D_i*weight
+            weightsum+=weight
                 it+=1
             x_i=x +DSUM/weightsum
             if x_i[0]>255:
