@@ -13,7 +13,7 @@ class Morph:
         :param lines: lines of correspondance, .txt file
         :param N: number of inter-¡mediary images
         '''
-        self.dim= 256
+        self.dim= 225
         self.lines = lines
         self.N = N
         self.t= 1/(N+1)# morph step t

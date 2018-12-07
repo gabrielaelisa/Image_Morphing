@@ -1,5 +1,7 @@
 from Morph import *
 if __name__ == '__main__':
+
+
     # parámetros de entrada
     path_img1= sys.argv[1]
     path_img2= sys.argv[2]
