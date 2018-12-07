@@ -104,10 +104,13 @@ class Morph:
                 weightsum+=weight
                 it+=1
             x_i=x +DSUM/weightsum
-            if x_i[0]>self.dim-1:
-                x_i[0]=self.dim-1
-            if x_i[1]>self.dim-1:
-                x_i[1]=self.dim-1
+
+            for i in range(2):
+                if x_i[i] > self.dim -1:
+                    x_i[i]= self.dim -1
+                if x_i[i]<0:
+                    x_i[i]=0
+
             self.interpolation(x, x_i, t_image, src_image)
         return t_image
 

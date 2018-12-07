@@ -1,4 +1,5 @@
-import sys
+from headers import *
+'''import sys
 file = sys.argv[1]
 input = open(file, 'r')
 output= open('output.txt', 'w')
@@ -7,4 +8,45 @@ for line in input:
     l= str(s[1]) + "," +str(s[0])+ "," + str(s[3]) + "," + str(s[2]) + ","+ str(s[5]) + "," + str(s[4]) + "," + str(int(s[7])) + "," + str(s[6])
     output.write(l)
     output.write("\n")
+'''
 
+img1 = io.imread('results_info/image1_step_0.jpg')
+img2 = io.imread('results_info/image1_step_1.jpg')
+img3= io.imread('results_info/image1_step_2.jpg')
+img4 = io.imread('results_info/image2_step_0.jpg')
+img5 = io.imread('results_info/image2_step_1.jpg')
+img6= io.imread('results_info/image2_step_2.jpg')
+img7 = io.imread('results/image2_step_0.jpg')
+img8 = io.imread('results/image2_step_1.jpg')
+img9= io.imread('results/image2_step_2.jpg')
+fig, xs = plt.subplots(3, 3)
+xs[0][0].imshow(img1, cmap="gray")
+xs[0][0].set_title("Blend t=0")
+xs[0][0].set_axis_off()
+xs[0][1].imshow(img2, cmap="gray")
+xs[0][1].set_axis_off()
+xs[0][1].set_title("Blend t=1")
+xs[0][2].imshow(img3, cmap="gray")
+xs[0][2].set_title("Blend t=2")
+xs[0][2].set_axis_off()
+
+xs[1][0].imshow(img4, cmap="gray")
+#xs[1][0].set_title("Blend t=0")
+xs[1][0].set_axis_off()
+xs[1][1].imshow(img5, cmap="gray")
+xs[1][1].set_axis_off()
+#xs[1][1].set_title("Blend t=1")
+xs[1][2].imshow(img6, cmap="gray")
+#xs[1][2].set_title("Blend t=2")
+xs[1][2].set_axis_off()
+
+xs[2][0].imshow(img7, cmap="gray")
+#xs[2][0].set_title("Blend t=0")
+xs[2][0].set_axis_off()
+xs[2][1].imshow(img8, cmap="gray")
+xs[2][1].set_axis_off()
+#xs[2][1].set_title("Blend t=1")
+xs[2][2].imshow(img9, cmap="gray")
+#xs[2][2].set_title("Blend t=2")
+xs[2][2].set_axis_off()
+plt.show()
