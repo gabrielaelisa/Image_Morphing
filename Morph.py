@@ -13,7 +13,7 @@ class Morph:
         :param lines: lines of correspondance, .txt file
         :param N: number of inter-¡mediary images
         '''
-        self.dim= 225
+        self.dim= 256
         self.lines = lines
         self.N = N
         self.t= 1/(N+1)# morph step t
@@ -60,7 +60,7 @@ class Morph:
         step=self.t
         for i in range(self.N):
             im1= self.warp(self.src_image, self.dest_image, self.t)
-            im2= self.warp(self.dest_image, self.src_image, self.t)
+            im2= self.warp(self.dest_image, self.src_image, 1-self.t)
             im_t=self.blend(im1, im2, self.t)
             plt.imsave("results/image_step_" + str(i) + ".jpg", im_t)
             self.t+=step
