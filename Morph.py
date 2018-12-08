@@ -23,9 +23,9 @@ class Morph:
         self.dest_image= Image(img2, d_l)
 
         self.resize()
-        #self.src_image.draw_lines()
-        #self.dest_image.draw_lines()
-        self.morph()
+        self.src_image.draw_lines()
+        self.dest_image.draw_lines()
+        #self.morph()
 
     def process_input_file(self):
         src_lines= []
@@ -65,21 +65,6 @@ class Morph:
             plt.imsave("results/image_step_" + str(i) + ".jpg", im_t)
             self.t+=step
 
-
-        '''
-        plt.axis('off')
-        fig, xs = plt.subplots(1, 3)
-        xs[0].imshow(im1, cmap="gray")
-        xs[0].set_title("Warping source")
-        xs[0].axis('off')
-        xs[1].imshow(im2, cmap="gray")
-        xs[1].set_title("Warping dest")
-        xs[1].axis('off')
-        xs[2].imshow(im_t, cmap="gray")
-        xs[2].set_title("Blending")
-        xs[2].axis('off')
-        plt.show()
-        '''
 
     def warp(self, src_image, dest_image, t):
         t_image= np.zeros_like(src_image.image)

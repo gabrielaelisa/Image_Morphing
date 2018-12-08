@@ -18,6 +18,7 @@ class Image:
         :return: draws reference lines on
         top of the image
         '''
+
         for line in self.lines:
             red = self.image[:, :, 0]
             green = self.image[:, :, 1]
@@ -26,6 +27,7 @@ class Image:
             red[rr,cc]=0
             green[rr,cc]=0
             blue[rr,cc]=255
+        self.image=resize(self.image, (256, 256), anti_aliasing=True)
 
     def resize(self, dim):
         self.image= resize(self.image, (dim, dim), anti_aliasing=True)
