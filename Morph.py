@@ -23,9 +23,7 @@ class Morph:
         self.dest_image= Image(img2, d_l)
 
         self.resize()
-        self.src_image.draw_lines()
-        self.dest_image.draw_lines()
-        #self.morph()
+        self.morph()
 
     def process_input_file(self):
         src_lines= []
@@ -64,6 +62,12 @@ class Morph:
             im_t=self.blend(im1, im2, self.t)
             plt.imsave("results/image_step_" + str(i) + ".jpg", im_t)
             self.t+=step
+
+        self.src_image.draw_lines()
+        self.dest_image.draw_lines()
+        plt.imsave("results/src_image_lines.jpg", self.src_image.image)
+        plt.imsave("results/dest_image_lines.jpg", self.dest_image.image)
+
 
 
     def warp(self, src_image, dest_image, t):
