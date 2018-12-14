@@ -1,3 +1,14 @@
+# Beier & Neely algorithm
+En este trabajo se implementa el algoritmo de Beier y Neely de morphing de imágenes.  
+Que consiste en Warping (Deformación de Imágenes) y Blending (Interpolación bilineal).
+
+### Ejemplos de uso:
+#### Líneas de Correspondencia
+![original](https://github.com/gabrielaelisa/CC5508-1_Tarea3/blob/master/results/Figure_1.png)
+### Resultados del algoritmo:
+![result](https://github.com/gabrielaelisa/CC5508-1_Tarea3/blob/master/results/case4.png)
+### Más resultados:
+![subplot](https://github.com/gabrielaelisa/CC5508-1_Tarea3/blob/master/results/all_subplots2.png)
 
 ## Supuestos
 - las imágenes son reescaladas a un formato 256*256, con el propósito de
